@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "241957586457",
+    "project_id": "meallan-1a472",
+    "storage_bucket": "meallan-1a472.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:241957586457:android:3c861e6a0c51534bd78c88",
+        "android_client_info": {
+          "package_name": "com.Client Android meallan"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "241957586457-d979ifk8j03uualfmcpe9mj05604mdjk.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyARXuziFRbTO2Yxwd-ve4hd4_7GLG_lU7E"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "241957586457-d979ifk8j03uualfmcpe9mj05604mdjk.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

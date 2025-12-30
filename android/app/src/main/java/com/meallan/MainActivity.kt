@@ -1,4 +1,4 @@
-package com.meallan
+package meallan.club
 
 import com.facebook.react.ReactActivity
 import com.facebook.react.ReactActivityDelegate

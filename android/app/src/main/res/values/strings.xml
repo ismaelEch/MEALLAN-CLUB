@@ -1,3 +1,5 @@
 <resources>
-    <string name="app_name">Meallan</string>
+    <string name="app_name">Meallan Club</string>
+    <string name="facebook_app_id">1063334835206710</string>
+    <string name="facebook_client_token">3df124f9060695d76643eebe3ef59daa</string>
 </resources>

@@ -1,4 +1,4 @@
-package com.meallan
+package meallan.club
 
 import android.app.Application
 import com.facebook.react.PackageList

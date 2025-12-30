@@ -1,4 +1,12 @@
 {
   "name": "Meallan",
-  "displayName": "Meallan"
+  "displayName": "Meallan",
+  "ios": {
+    "bundleIdentifier": "meallan.club"
+  },
+  "extra": {
+    "eas": {
+      "projectId": "98d64506-645d-4531-ac15-3965fb9d41cf"
+    }
+  }
 }

@@ -8,13 +8,13 @@ import {
 } from 'react-native';
 
 import AntDesign from 'react-native-vector-icons/AntDesign';
-import {GestureResponderEvent} from 'react-native/Libraries/Types/CoreEventTypes';
+import { GestureResponderEvent } from 'react-native/Libraries/Types/CoreEventTypes';
 
-import {XColors} from '../config/constants';
-import {Accented} from './formatting.component';
-import {useSelector} from 'react-redux';
-import {Colors} from 'react-native/Libraries/NewAppScreen';
-import {useTranslation} from 'react-i18next';
+import { XColors } from '../config/constants';
+import { Accented } from './formatting.component';
+import { useSelector } from 'react-redux';
+
+import { useTranslation } from 'react-i18next';
 
 type HeaderProps = {
   onPressMenu: (e: GestureResponderEvent) => void;
@@ -27,14 +27,14 @@ type HeaderProps = {
 export const Header = (props: HeaderProps) => {
   const isLogin = useSelector((state: any) => state.authentication.login_user);
 
-  const {t} = useTranslation();
+  const { t } = useTranslation();
 
   return (
     <View style={styles.container}>
       <View style={styles.header}>
         <View style={styles.iconsBar}>
           <TouchableOpacity
-            hitSlop={{right: 20, bottom: 20}}
+            hitSlop={{ right: 20, bottom: 20 }}
             onPress={props.onPressMenu}>
             <AntDesign name="menu-fold" size={20} style={styles.menuIcon} />
           </TouchableOpacity>
@@ -46,7 +46,7 @@ export const Header = (props: HeaderProps) => {
               ]}>
               {isLogin && (
                 <TouchableOpacity
-                  hitSlop={{right: 20, bottom: 20}}
+                  hitSlop={{ right: 20, bottom: 20 }}
                   onPress={props.onPressHeart}>
                   <Accented>
                     <AntDesign name={props.switchIcon} size={16} />
@@ -56,7 +56,7 @@ export const Header = (props: HeaderProps) => {
             </View>
             <View style={styles.iconButton}>
               <TouchableOpacity
-                hitSlop={{right: 20, bottom: 20}}
+                hitSlop={{ right: 20, bottom: 20 }}
                 onPress={props.onPressUser}>
                 <Accented>
                   <AntDesign name="user" size={16} />
@@ -68,7 +68,7 @@ export const Header = (props: HeaderProps) => {
         <View style={styles.headerRow}>
           <View style={styles.searchContainer}>
             <TextInput
-              placeholderTextColor={Colors.dark}
+              placeholderTextColor={XColors.dark}
               style={styles.search}
               placeholder={t('Restaurants, meals')}
               {...props.inputProps}
@@ -119,7 +119,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   search: {
-    color: Colors.dark,
+    color: XColors.dark,
     backgroundColor: XColors.lightgrey,
     borderRadius: 5,
     width: '100%',
@@ -152,7 +152,7 @@ const styles = StyleSheet.create({
     position: 'absolute',
     left: 15,
     top: 16,
-    color: Colors.dark,
+    color: XColors.dark,
   },
 
   filterIcon: {
@@ -161,6 +161,6 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   menuIcon: {
-    color: Colors.dark,
+    color: XColors.dark,
   },
 });

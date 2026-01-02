@@ -1,17 +1,17 @@
 import React from 'react';
-import {StyleSheet, useColorScheme, View} from 'react-native';
+import { StyleSheet, useColorScheme, View, Text } from 'react-native';
 
-import {Colors} from 'react-native/Libraries/NewAppScreen';
+import { XColors } from '../config/constants';
 
-function FoodListScreen(): JSX.Element {
+function FoodListScreen() {
   const isDarkMode = useColorScheme() === 'dark';
 
   const backgroundStyle = {
-    backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,
+    backgroundColor: isDarkMode ? XColors.darker : XColors.lighter
   };
 
   return (
-    <View style={{...backgroundStyle, ...styles.screen}}>
+    <View style={{ ...backgroundStyle, ...styles.screen }}>
       <Text>Home Screen</Text>
     </View>
   );

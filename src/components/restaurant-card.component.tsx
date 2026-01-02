@@ -16,7 +16,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { CDNURL } from '../config/Url';
 import { fetchAllFavoriteRestaurant } from '../redux/actions/addfavoriteaction';
 import { axiosInstance } from '../utils/axiosInstance';
-import { Colors } from 'react-native/Libraries/NewAppScreen';
+import { XColors } from '../config/constants';
 import { useTranslation } from 'react-i18next';
 
 export type RestaurantCardProps = PropsWithChildren<{
@@ -123,13 +123,13 @@ export const RestaurantCard = (props: RestaurantCardProps) => {
           <View style={styles.imageContainer}>
             <View style={StyleSheet.absoluteFill}>
               <View style={styles.imagePlaceholder}>
-              <Image
-                style={styles.image}
+                <Image
+                  style={styles.image}
 
-                source={{
-                  uri:  CDNURL + 'no-image.jpg',
-                }}
-              />
+                  source={{
+                    uri: CDNURL + 'no-image.jpg',
+                  }}
+                />
               </View>
               <Image
                 style={styles.image}
@@ -225,12 +225,12 @@ const styles = StyleSheet.create({
     elevation: 5,
   },
   pointsText: {
-    color: Colors.dark,
+    color: XColors.dark,
   },
   pointsLabel: {
     fontSize: 12,
     marginTop: -5,
-    color: Colors.dark,
+    color: XColors.dark,
   },
   distanceContainer: {
     justifyContent: 'center',
@@ -247,12 +247,12 @@ const styles = StyleSheet.create({
     elevation: 5,
   },
   distanceText: {
-    color: Colors.dark,
+    color: XColors.dark,
   },
   distanceLabel: {
     fontSize: 12,
     marginTop: -5,
-    color: Colors.dark,
+    color: XColors.dark,
   },
   cardContent: {
     padding: 10,
@@ -260,16 +260,16 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 20,
     fontWeight: '500',
-    color: Colors.dark,
+    color: XColors.dark,
   },
   ratingContainer: {
     flexDirection: 'row',
     alignItems: 'center',
   },
   starIcon: {
-    color: Colors.dark,
+    color: XColors.dark,
   },
   ratingText: {
-    color: Colors.dark,
+    color: XColors.dark,
   },
 });

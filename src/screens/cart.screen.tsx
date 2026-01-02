@@ -11,13 +11,13 @@ import {
   TouchableWithoutFeedback,
 } from 'react-native';
 
-import {Colors} from 'react-native/Libraries/NewAppScreen';
+
 import AntDesign from 'react-native-vector-icons/AntDesign';
 
-import {Accented, Heading} from '../components/formatting.component';
-import {MealBarProps} from '../components/meal-bar.component';
+import { Accented, Heading } from '../components/formatting.component';
+import { MealBarProps } from '../components/meal-bar.component';
 
-import {Screens, XColors} from '../config/constants';
+import { Screens, XColors } from '../config/constants';
 
 export type CartItemProps = MealBarProps & {
   count?: Number;
@@ -37,7 +37,7 @@ function CartItem(props: CartItemProps) {
 
   return (
     <View
-      style={{flexDirection: 'row', position: 'relative', marginBottom: 15}}>
+      style={{ flexDirection: 'row', position: 'relative', marginBottom: 15 }}>
       <TouchableWithoutFeedback onPress={() => setShowCounter(!showCounter)}>
         <View
           style={{
@@ -51,14 +51,14 @@ function CartItem(props: CartItemProps) {
             marginRight: 15,
           }}>
           <Text>{count}</Text>
-          <Accented style={{marginLeft: 5}}>
+          <Accented style={{ marginLeft: 5 }}>
             <AntDesign name="down" />
           </Accented>
         </View>
       </TouchableWithoutFeedback>
-      <View style={{borderRadius: 5, overflow: 'hidden'}}>
+      <View style={{ borderRadius: 5, overflow: 'hidden' }}>
         <TouchableNativeFeedback onPress={onPress}>
-          <View style={{flexDirection: 'row'}}>
+          <View style={{ flexDirection: 'row' }}>
             <View
               style={{
                 width: 80,
@@ -87,7 +87,7 @@ function CartItem(props: CartItemProps) {
                 </View>
               )}
             </View>
-            <View style={{marginLeft: 15}}>
+            <View style={{ marginLeft: 15 }}>
               <Accented>
                 <Heading level={2}>
                   <Text>{title}</Text>
@@ -127,11 +127,11 @@ function CartItem(props: CartItemProps) {
   );
 }
 
-function CartScreen(props): JSX.Element {
+function CartScreen(props) {
   const isDarkMode = useColorScheme() === 'dark';
 
   const backgroundStyle = {
-    backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,
+    backgroundColor: isDarkMode ? XColors.darker : XColors.lighter
   };
 
   const cart: Array<CartItemProps> = [
@@ -182,7 +182,7 @@ function CartScreen(props): JSX.Element {
 
   return (
     <ScrollView>
-      <View style={{...backgroundStyle, ...styles.screen}}>
+      <View style={{ ...backgroundStyle, ...styles.screen }}>
         {cart.map(item => (
           <CartItem {...item} />
         ))}
@@ -192,7 +192,7 @@ function CartScreen(props): JSX.Element {
 }
 
 const styles = StyleSheet.create({
-  screen: {flex: 1, padding: 15},
+  screen: { flex: 1, padding: 15 },
   body: {
     flex: 1,
     paddingHorizontal: 20,

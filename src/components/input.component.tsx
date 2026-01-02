@@ -8,8 +8,8 @@ import {
 } from 'react-native';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 
-import {XColors} from '../config/constants';
-import {Colors} from 'react-native/Libraries/NewAppScreen';
+import { XColors } from '../config/constants';
+
 
 type InputProps = TextInputProps & {
   icon: string;
@@ -21,13 +21,13 @@ export const Input = (props: InputProps) => {
   const inputBorderStyles = {
     borderColor: isFocused ? XColors.accent : XColors.lightgrey,
     borderWidth: 0.5,
-    color: Colors.dark,
+    color: XColors.dark,
   };
 
   return (
     <View style={styles.searchContainer}>
       <TextInput
-        placeholderTextColor={Colors.dark}
+        placeholderTextColor={XColors.dark}
         style={{
           ...inputBorderStyles,
           ...styles.search,
@@ -53,13 +53,13 @@ export const PasswordInput = (props: InputProps) => {
   const inputBorderStyles = {
     borderColor: isFocused ? XColors.accent : XColors.lightgrey,
     borderWidth: 0.5,
-    color: Colors.dark,
+    color: XColors.dark,
   };
 
   return (
     <View style={styles.searchContainer}>
       <TextInput
-        placeholderTextColor={Colors.dark}
+        placeholderTextColor={XColors.dark}
         style={{
           ...inputBorderStyles,
           ...styles.search,
@@ -76,7 +76,7 @@ export const PasswordInput = (props: InputProps) => {
         size={16}
       />
       <TouchableOpacity
-        hitSlop={{top: 50, bottom: 50, right: 50}}
+        hitSlop={{ top: 50, bottom: 50, right: 50 }}
         onPress={() => setShowPassword(!showPassword)}
         style={styles.rightIconButton}>
         <AntDesign
@@ -95,7 +95,7 @@ const styles = StyleSheet.create({
     borderRadius: 5,
     width: '100%',
     paddingLeft: 40,
-      // iOS: harmoniser la hauteur et l'espacement vertical
+    // iOS: harmoniser la hauteur et l'espacement vertical
     minHeight: 48,
     paddingVertical: 12,
   },
@@ -108,7 +108,7 @@ const styles = StyleSheet.create({
     position: 'absolute',
     left: 15,
     top: 15,
-    color: Colors.dark,
+    color: XColors.dark,
   },
-  rightIconButton: {top: 15, right: 15, position: 'absolute'},
+  rightIconButton: { top: 15, right: 15, position: 'absolute' },
 });

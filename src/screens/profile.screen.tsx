@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   StyleSheet,
   useColorScheme,
@@ -9,21 +9,21 @@ import {
 } from 'react-native';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 // import {Accented} from './formatting.component';
-import {Accented} from '../components/formatting.component';
-import {Colors} from 'react-native/Libraries/NewAppScreen';
-// import {Screens, XColors} from '../config/constants';
-import {Screens, XColors} from '../config/constants';
-import {useIsFocused, useNavigation} from '@react-navigation/native';
-import {useSelector} from 'react-redux';
-import {axiosInstance} from '../utils/axiosInstance';
-import {useTranslation} from 'react-i18next';
+import { Accented } from '../components/formatting.component';
 
-function ProfileScreen(): JSX.Element {
+// import {Screens, XColors} from '../config/constants';
+import { Screens, XColors } from '../config/constants';
+import { useIsFocused, useNavigation } from '@react-navigation/native';
+import { useSelector } from 'react-redux';
+import { axiosInstance } from '../utils/axiosInstance';
+import { useTranslation } from 'react-i18next';
+
+function ProfileScreen() {
   const backgroundStyle = {
-    backgroundColor: Colors.lighter,
+    backgroundColor: XColors.lighter
   };
 
-  const {t} = useTranslation();
+  const { t } = useTranslation();
 
   const [firstName, setFirstName] = useState('');
   const [lastName, setLastName] = useState('');
@@ -106,11 +106,11 @@ function ProfileScreen(): JSX.Element {
   };
 
   return (
-    <View style={{...backgroundStyle, ...styles.screen}}>
+    <View style={{ ...backgroundStyle, ...styles.screen }}>
       <View style={styles.field}>
         <Text style={styles.label}>{t('First Name')} :</Text>
         <TextInput
-          placeholderTextColor={Colors.dark}
+          placeholderTextColor={XColors.dark}
           style={styles.input}
           value={firstName === 'null' ? '' : firstName}
           onChangeText={setFirstName}
@@ -120,7 +120,7 @@ function ProfileScreen(): JSX.Element {
       <View style={styles.field}>
         <Text style={styles.label}>{t('Last Name')} :</Text>
         <TextInput
-          placeholderTextColor={Colors.dark}
+          placeholderTextColor={XColors.dark}
           style={styles.input}
           value={lastName === 'null' ? '' : lastName}
           onChangeText={setLastName}
@@ -130,7 +130,7 @@ function ProfileScreen(): JSX.Element {
       <View style={styles.field}>
         <Text style={styles.label}>{t('Email')} :</Text>
         <TextInput
-          placeholderTextColor={Colors.dark}
+          placeholderTextColor={XColors.dark}
           style={styles.input}
           value={email}
           onChangeText={setEmail}
@@ -140,7 +140,7 @@ function ProfileScreen(): JSX.Element {
       <View style={styles.field}>
         <Text style={styles.label}>{t('Phone')} :</Text>
         <TextInput
-          placeholderTextColor={Colors.dark}
+          placeholderTextColor={XColors.dark}
           style={styles.input}
           value={phone === 'null' ? '' : phone}
           onChangeText={setPhone}
@@ -170,7 +170,7 @@ function ProfileScreen(): JSX.Element {
 }
 
 const styles = StyleSheet.create({
-  screen: {flex: 1, padding: 16},
+  screen: { flex: 1, padding: 16 },
   container: {},
   field: {
     flexDirection: 'row',
@@ -181,7 +181,7 @@ const styles = StyleSheet.create({
     flex: 1,
     marginRight: 16,
     fontWeight: 'bold',
-    color: Colors.dark,
+    color: XColors.dark,
   },
   input: {
     flex: 3,
@@ -189,7 +189,7 @@ const styles = StyleSheet.create({
     borderRadius: 4,
     paddingHorizontal: 8,
     paddingVertical: 4,
-    color: Colors.dark,
+    color: XColors.dark,
   },
   buttonGroup: {
     flexDirection: 'row',

@@ -9,23 +9,23 @@ import {
   Dimensions,
   ActivityIndicator,
 } from 'react-native';
-import {Colors} from 'react-native/Libraries/NewAppScreen';
 
-import {Accented, Heading} from '../components/formatting.component';
-import {Input} from '../components/input.component';
 
-import {Screens, XColors} from '../config/constants';
-import {_login} from '../redux/actions/authentication';
+import { Accented, Heading } from '../components/formatting.component';
+import { Input } from '../components/input.component';
+
+import { Screens, XColors } from '../config/constants';
+import { _login } from '../redux/actions/authentication';
 import Toast from 'react-native-toast-message';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 
-import {useNavigation} from '@react-navigation/native';
-import {useTranslation} from 'react-i18next';
-import {axiosInstance} from '../utils/axiosInstance';
+import { useNavigation } from '@react-navigation/native';
+import { useTranslation } from 'react-i18next';
+import { axiosInstance } from '../utils/axiosInstance';
 
-const {width, height} = Dimensions.get('window');
+const { width, height } = Dimensions.get('window');
 
-function ForgotPasswordScreen(): JSX.Element {
+function ForgotPasswordScreen() {
   const paddingVertical = height * 0.02;
   const paddingHorizontal = width * 0.05;
   const [email, setEmail] = React.useState('');
@@ -34,10 +34,10 @@ function ForgotPasswordScreen(): JSX.Element {
 
   const navigation = useNavigation();
 
-  const {t} = useTranslation();
+  const { t } = useTranslation();
 
   const backgroundStyle = {
-    backgroundColor: Colors.lighter,
+    backgroundColor: XColors.lighter
   };
 
   const handleForgotPassword = async () => {
@@ -68,7 +68,7 @@ function ForgotPasswordScreen(): JSX.Element {
   };
 
   return (
-    <View style={{...backgroundStyle, ...styles.screen}}>
+    <View style={{ ...backgroundStyle, ...styles.screen }}>
       <View style={styles.headerButtonsRight}>
         <TouchableOpacity
           onPress={() => {
@@ -87,7 +87,7 @@ function ForgotPasswordScreen(): JSX.Element {
           alignItems: 'center',
         }}>
         <Image
-          style={{width: 200, height: 150}}
+          style={{ width: 200, height: 150 }}
           source={require('../../assets/logo.jpg')}
         />
         <Heading level={1}>
@@ -95,7 +95,7 @@ function ForgotPasswordScreen(): JSX.Element {
         </Heading>
       </View>
 
-      <View style={{backgroundColor: 'white', padding: 20}}>
+      <View style={{ backgroundColor: 'white', padding: 20 }}>
         <Input
           icon="mail"
           placeholder={t('Email')}
@@ -104,9 +104,9 @@ function ForgotPasswordScreen(): JSX.Element {
           keyboardType="email-address"
           onChangeText={val => setEmail(val)}
         />
-        <View style={{height: 20}} />
+        <View style={{ height: 20 }} />
 
-        <View style={{justifyContent: 'center', alignItems: 'center'}}>
+        <View style={{ justifyContent: 'center', alignItems: 'center' }}>
           <View
             style={{
               overflow: 'hidden',
@@ -139,7 +139,7 @@ function ForgotPasswordScreen(): JSX.Element {
 }
 
 const styles = StyleSheet.create({
-  screen: {flex: 1, backgroundColor: 'white', justifyContent: 'center'},
+  screen: { flex: 1, backgroundColor: 'white', justifyContent: 'center' },
   iconButton: {
     width: 45,
     height: 45,

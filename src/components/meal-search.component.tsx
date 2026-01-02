@@ -1,19 +1,19 @@
 import React from 'react';
-import {StyleSheet, ScrollView, View} from 'react-native';
+import { StyleSheet, ScrollView, View } from 'react-native';
 
-import {Colors} from 'react-native/Libraries/NewAppScreen';
-import {RestaurantCard} from './restaurant-card.component';
-import {MealBar} from './meal-bar.component';
-import {Screens} from '../config/constants';
-import {useNavigation} from '@react-navigation/native';
-import {convertCurrency} from '../utils/currency';
+import { XColors } from '../config/constants';
+import { RestaurantCard } from './restaurant-card.component';
+import { MealBar } from './meal-bar.component';
+import { Screens } from '../config/constants';
+import { useNavigation } from '@react-navigation/native';
+import { convertCurrency } from '../utils/currency';
 
 export type MealSearchProps = {
   results: Array<any>;
   heartIcon: string;
 };
 
-function MealSearch(props: MealSearchProps): JSX.Element {
+function MealSearch(props: MealSearchProps) {
   const navigation: any = useNavigation();
 
   return (
@@ -52,9 +52,9 @@ function MealSearch(props: MealSearchProps): JSX.Element {
 }
 
 const styles = StyleSheet.create({
-  screen: {flex: 1, paddingBottom: 300},
+  screen: { flex: 1, paddingBottom: 300 },
   backgroundStyle: {
-    backgroundColor: Colors.lighter,
+    backgroundColor: XColors.lighter
   },
   mealBarContainer: {
     paddingHorizontal: 30,

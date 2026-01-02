@@ -31,7 +31,7 @@ import {
   useRoute,
 } from '@react-navigation/native';
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
-import { Colors } from 'react-native/Libraries/NewAppScreen';
+
 
 import { Screens, XColors } from '../config/constants';
 
@@ -73,12 +73,12 @@ const RestaurantScreen: React.FC<Props> = ({ user }) => {
     favId: null,
   });
   const backgroundStyle = {
-    backgroundColor: Colors.lighter,
+    backgroundColor: XColors.lighter
   };
 
   useEffect(() => {
     // Si l'utilisateur est connecté, on ouvre le modal automatiquement
-    if (isLogin  &&  membership?.code  ) {
+    if (isLogin && membership?.code) {
       setShowQrModal(true);
     } else {
       console.log("Utilisateur NON connecté<<<<<<<<<<<<");
@@ -245,169 +245,169 @@ const RestaurantScreen: React.FC<Props> = ({ user }) => {
   );
   const isLogin = useSelector(state => state.authentication.login_user);
   return (
-      <View
-        style={{ ...backgroundStyle, ...styles.screen }}>
+    <View
+      style={{ ...backgroundStyle, ...styles.screen }}>
 
-        <Modal
-          visible={showQrModal}
-          transparent={true}
-          animationType="fade"
-          onRequestClose={() => setShowQrModal(false)}
-        >
-          <TouchableWithoutFeedback onPress={() => setShowQrModal(false)}>
-            <View style={styles.modalContainer}>
-              <TouchableWithoutFeedback>
-                <View style={styles.modalContent}>
-                  <Text style={styles.modalTitle}>
-                    {t('Your membership code')} :  <Text style={styles.boldCode}>{membership?.code}</Text>
-                  </Text>
+      <Modal
+        visible={showQrModal}
+        transparent={true}
+        animationType="fade"
+        onRequestClose={() => setShowQrModal(false)}
+      >
+        <TouchableWithoutFeedback onPress={() => setShowQrModal(false)}>
+          <View style={styles.modalContainer}>
+            <TouchableWithoutFeedback>
+              <View style={styles.modalContent}>
+                <Text style={styles.modalTitle}>
+                  {t('Your membership code')} :  <Text style={styles.boldCode}>{membership?.code}</Text>
+                </Text>
 
-                  {membership?.code ? (
-                    <BarcodeCreatorView
-                      value={JSON.stringify(membership.code)}
-                      background={'#FFFFFF'}
-                      foregroundColor={'#000000'}
-                      format={BarcodeFormat.QR}
-                      style={{ width: 200, height: 200 }}
-                    />
-                  ) : (
-                    <Text>{t('No code available')}</Text>
-                  )}
+                {membership?.code ? (
+                  <BarcodeCreatorView
+                    value={JSON.stringify(membership.code)}
+                    background={'#FFFFFF'}
+                    foregroundColor={'#000000'}
+                    format={BarcodeFormat.QR}
+                    style={{ width: 200, height: 200 }}
+                  />
+                ) : (
+                  <Text>{t('No code available')}</Text>
+                )}
 
-                  <Text style={styles.pointBalance}>
-                    {t('Balance')} : <Text style={styles.boldCode}>{membership?.points ?? 0}</Text> {t('Points')}
-                  </Text>
+                <Text style={styles.pointBalance}>
+                  {t('Balance')} : <Text style={styles.boldCode}>{membership?.points ?? 0}</Text> {t('Points')}
+                </Text>
 
-                  <TouchableOpacity
-                    style={styles.closeButton}
-                    onPress={() => setShowQrModal(false)}
-                  >
-                    <Text style={styles.closeButtonText}>{t('Close')} </Text>
-                  </TouchableOpacity>
-                </View>
-              </TouchableWithoutFeedback>
-            </View>
-          </TouchableWithoutFeedback>
-        </Modal>
+                <TouchableOpacity
+                  style={styles.closeButton}
+                  onPress={() => setShowQrModal(false)}
+                >
+                  <Text style={styles.closeButtonText}>{t('Close')} </Text>
+                </TouchableOpacity>
+              </View>
+            </TouchableWithoutFeedback>
+          </View>
+        </TouchableWithoutFeedback>
+      </Modal>
 
-        <View style={styles.headerButtonsRight}>
-          <TouchableOpacity
-            onPress={() => {
-              navigation.navigate(Screens.HOME_SCREEN)
-            }}>
-            <View style={styles.iconButton}>
+      <View style={styles.headerButtonsRight}>
+        <TouchableOpacity
+          onPress={() => {
+            navigation.navigate(Screens.HOME_SCREEN)
+          }}>
+          <View style={styles.iconButton}>
+            <Accented>
+              <AntDesign name="arrowleft" size={20} />
+            </Accented>
+          </View>
+        </TouchableOpacity>
+        <View style={{ flexDirection: 'row' }}>
+          {isLogin && (
+            <TouchableOpacity
+              onPress={handleAddToFavorites}
+              style={styles.iconButton}>
+              <AntDesign
+                name={favoriteDto.isFavorite ? 'heart' : 'hearto'}
+                size={20}
+                color="red"
+              />
+            </TouchableOpacity>
+
+          )}
+
+          <View style={{ ...styles.iconButton, marginRight: 20 }}>
+            <TouchableOpacity
+              hitSlop={{ right: 20, bottom: 20 }}
+              onPress={() => navigation.navigate(Screens.PROFILE_SCREEN)}>
               <Accented>
-                <AntDesign name="arrowleft" size={20} />
+                <AntDesign name="user" size={16} />
               </Accented>
-            </View>
-          </TouchableOpacity>
-          <View style={{ flexDirection: 'row' }}>
-            {isLogin && (
-              <TouchableOpacity
-                onPress={handleAddToFavorites}
-                style={styles.iconButton}>
-                <AntDesign
-                  name={favoriteDto.isFavorite ? 'heart' : 'hearto'}
-                  size={20}
-                  color="red"
-                />
-              </TouchableOpacity>
-
-            )}
-       
-            <View style={{ ...styles.iconButton, marginRight: 20 }}>
-              <TouchableOpacity
-                hitSlop={{ right: 20, bottom: 20 }}
-                onPress={() => navigation.navigate(Screens.PROFILE_SCREEN)}>
-                <Accented>
-                  <AntDesign name="user" size={16} />
-                </Accented>
-              </TouchableOpacity>
-            </View>
+            </TouchableOpacity>
           </View>
         </View>
+      </View>
 
-        <View
-          style={[styles.banner]}
-        >
-          <View style={[styles.bannerImage]}>
-            <View style={StyleSheet.absoluteFill}>
-              <View
-                style={{
-                  flex: 1,
-                  backgroundColor: 'lightgrey',
-                  justifyContent: 'center',
-                  alignItems: 'center',
-                  position: 'absolute',
-                  width: '100%',
-                  height: '100%',
-                }}>
-                      <Image
+      <View
+        style={[styles.banner]}
+      >
+        <View style={[styles.bannerImage]}>
+          <View style={StyleSheet.absoluteFill}>
+            <View
+              style={{
+                flex: 1,
+                backgroundColor: 'lightgrey',
+                justifyContent: 'center',
+                alignItems: 'center',
+                position: 'absolute',
+                width: '100%',
+                height: '100%',
+              }}>
+              <Image
                 style={{ width: '100%', height: 200, resizeMode: 'cover' }}
                 source={{
                   uri: CDNURL + 'no-image.jpg',
                 }}
               />
-              </View>
-              <Image
-                style={{ width: '100%', height: 200, resizeMode: 'cover' }}
-                source={{
-                  uri: CDNURL + restaurant.picture
-                }}
-              />
             </View>
-          </View>
-          <View style={{ paddingHorizontal: 20, paddingTop: 10 }}>
-            <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
-              <Heading level={1}>
-                <Text style={{ textTransform: 'uppercase' }}>
-                  {restaurant?.title}
-                </Text>
-              </Heading>
-
-
-            </View>
-            <Text style={{ color: 'grey' }}>
-              {distance?.toFixed(1)} {t('km away')}
-            </Text>
-            {restaurant?.menu?.menuGroups[0]?.meals.length > 0 ? (
-              <Text style={{ color: 'grey' }}>
-                {restaurant?.menu?.menuGroups[0]?.meals[0]?.label ?? ''} •{' '}
-                {restaurant?.menu?.menuGroups[0]?.meals[1]?.label ?? ''} •{' '}
-                {restaurant?.menu?.menuGroups[0]?.meals[2]?.label ?? ''}
-              </Text>
-            ) : (
-              <Text>{t('No meals available')}</Text>
-            )}
+            <Image
+              style={{ width: '100%', height: 200, resizeMode: 'cover' }}
+              source={{
+                uri: CDNURL + restaurant.picture
+              }}
+            />
           </View>
         </View>
-        <RestaurantContext.Provider value={restaurant}>
-          <Tab.Navigator initialRouteName={initialTabRoute}>
-            <Tab.Screen
-              options={{ tabBarLabel: t('Menu') }}
-              name={Screens.MENU_SCREEN}
-              component={MenuTab}
-            />
-            <Tab.Screen
-              options={{ tabBarLabel: t('Deals') }}
-              name={Screens.DEALS_SCREEN}
-              component={DealsTab}
-            />
-            <Tab.Screen
-              options={{ tabBarLabel: t('My program') }}
-              name={Screens.MY_PROGRAM_SCREEN}
-              component={MyProgramTab}
-              initialParams={{ points, restaurantId: restaurant?.id }}
-            />
-          </Tab.Navigator>
-        </RestaurantContext.Provider>
+        <View style={{ paddingHorizontal: 20, paddingTop: 10 }}>
+          <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
+            <Heading level={1}>
+              <Text style={{ textTransform: 'uppercase' }}>
+                {restaurant?.title}
+              </Text>
+            </Heading>
+
+
+          </View>
+          <Text style={{ color: 'grey' }}>
+            {distance?.toFixed(1)} {t('km away')}
+          </Text>
+          {restaurant?.menu?.menuGroups[0]?.meals.length > 0 ? (
+            <Text style={{ color: 'grey' }}>
+              {restaurant?.menu?.menuGroups[0]?.meals[0]?.label ?? ''} •{' '}
+              {restaurant?.menu?.menuGroups[0]?.meals[1]?.label ?? ''} •{' '}
+              {restaurant?.menu?.menuGroups[0]?.meals[2]?.label ?? ''}
+            </Text>
+          ) : (
+            <Text>{t('No meals available')}</Text>
+          )}
+        </View>
       </View>
-    
+      <RestaurantContext.Provider value={restaurant}>
+        <Tab.Navigator initialRouteName={initialTabRoute}>
+          <Tab.Screen
+            options={{ tabBarLabel: t('Menu') }}
+            name={Screens.MENU_SCREEN}
+            component={MenuTab}
+          />
+          <Tab.Screen
+            options={{ tabBarLabel: t('Deals') }}
+            name={Screens.DEALS_SCREEN}
+            component={DealsTab}
+          />
+          <Tab.Screen
+            options={{ tabBarLabel: t('My program') }}
+            name={Screens.MY_PROGRAM_SCREEN}
+            component={MyProgramTab}
+            initialParams={{ points, restaurantId: restaurant?.id }}
+          />
+        </Tab.Navigator>
+      </RestaurantContext.Provider>
+    </View>
+
   );
 }
 
 function MenuTab(props) {
-  
+
   const restaurant = useContext(RestaurantContext);
   const [selectedMenu, setSelectedMenu] = useState(
     restaurant?.menu?.menuGroups[0],

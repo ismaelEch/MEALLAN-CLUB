@@ -9,35 +9,35 @@ import {
   TouchableNativeFeedback,
 } from 'react-native';
 
-import {Colors} from 'react-native/Libraries/NewAppScreen';
+
 import AntDesign from 'react-native-vector-icons/AntDesign';
 
-import {Accented, Heading} from '../components/formatting.component';
-import {Screens, XColors} from '../config/constants';
-import {useTranslation} from 'react-i18next';
+import { Accented, Heading } from '../components/formatting.component';
+import { Screens, XColors } from '../config/constants';
+import { useTranslation } from 'react-i18next';
 
-function ProductScreen(props): JSX.Element {
-  const {t} = useTranslation();
+function ProductScreen(props: any) {
+  const { t } = useTranslation();
 
   const backgroundStyle = {
-    backgroundColor: Colors.lighter,
+    backgroundColor: XColors.lighter
   };
 
   const [count, setCount] = React.useState(1);
 
   return (
-    <View style={{...backgroundStyle, ...styles.screen}}>
+    <View style={{ ...backgroundStyle, ...styles.screen }}>
       <View style={styles.banner}>
         <View style={styles.bannerImage}>
           <View style={StyleSheet.absoluteFill}>
             <Image
-              style={{height: '100%', width: '100%', resizeMode: 'cover'}}
+              style={{ height: '100%', width: '100%', resizeMode: 'cover' }}
               source={require('./../../assets/burger.jpeg')}
             />
           </View>
           <View style={styles.headerButtonsRight}>
             <TouchableOpacity onPress={() => props.navigation.goBack()}>
-              <View style={{...styles.iconButton, marginLeft: 20}}>
+              <View style={{ ...styles.iconButton, marginLeft: 20 }}>
                 <Accented>
                   <AntDesign name="arrowleft" size={24} />
                 </Accented>
@@ -110,7 +110,7 @@ function ProductScreen(props): JSX.Element {
 }
 
 const styles = StyleSheet.create({
-  screen: {flex: 1},
+  screen: { flex: 1 },
   body: {
     marginTop: 10,
     flex: 1,

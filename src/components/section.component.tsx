@@ -1,21 +1,21 @@
 import React from 'react';
-import type {PropsWithChildren} from 'react';
-import {Text, View, StyleSheet} from 'react-native';
+import type { PropsWithChildren } from 'react';
+import { Text, View, StyleSheet } from 'react-native';
 
-import {Colors} from 'react-native/Libraries/NewAppScreen';
+import { XColors } from '../config/constants';
 
 type SectionProps = PropsWithChildren<{
   title: string;
 }>;
 
-export function Section({children, title}: SectionProps): JSX.Element {
+export function Section({ children, title }: SectionProps) {
   return (
     <View style={styles.sectionContainer}>
       <Text
         style={[
           styles.sectionTitle,
           {
-            color: Colors.black,
+            color: XColors.black
           },
         ]}>
         {title}
@@ -24,7 +24,7 @@ export function Section({children, title}: SectionProps): JSX.Element {
         style={[
           styles.sectionDescription,
           {
-            color: Colors.dark,
+            color: XColors.dark
           },
         ]}>
         {children}

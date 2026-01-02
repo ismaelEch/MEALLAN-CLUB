@@ -1,48 +1,48 @@
-import React, {useCallback, useState} from 'react';
-import {ScrollView, Text, StyleSheet, View} from 'react-native';
+import React, { useCallback, useState } from 'react';
+import { ScrollView, Text, StyleSheet, View } from 'react-native';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 
-import {Colors} from 'react-native/Libraries/NewAppScreen';
-import {Accented} from '../components/formatting.component';
-import {Header} from '../components/header.component';
+import { XColors } from '../config/constants';
+import { Accented } from '../components/formatting.component';
+import { Header } from '../components/header.component';
 import {
   RestaurantCard,
   RestaurantCardProps,
 } from '../components/restaurant-card.component';
-import {Screens} from '../config/constants';
+import { Screens } from '../config/constants';
 import MealSearch from '../components/meal-search.component';
-import {MealBarProps} from '../components/meal-bar.component';
-import {axiosInstance} from '../utils/axiosInstance';
-import {useSelector} from 'react-redux';
+import { MealBarProps } from '../components/meal-bar.component';
+import { axiosInstance } from '../utils/axiosInstance';
+import { useSelector } from 'react-redux';
 import {
   useFocusEffect,
   useIsFocused,
   useNavigation,
 } from '@react-navigation/native';
-import {TouchableOpacity} from 'react-native-gesture-handler';
+import { TouchableOpacity } from 'react-native-gesture-handler';
 import useSearchRestaurant from '../hoc/useSearchResturants';
-import {useTranslation} from 'react-i18next';
+import { useTranslation } from 'react-i18next';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import {haversineDistanceCalculation} from '../utils/location';
+import { haversineDistanceCalculation } from '../utils/location';
 
 export type RestaurantSearchData = RestaurantCardProps & {
   meals: Array<MealBarProps>;
 };
 
-function MyProgram(props): JSX.Element {
+function MyProgram(props) {
   const state = useSelector(x => x.authentication);
 
   const backgroundStyle = {
-    backgroundColor: Colors.lighter,
+    backgroundColor: XColors.lighter
   };
 
   const [restaurantData, setRestaurantData] = useState([]);
   const navigation = useNavigation();
   const isFocused = useIsFocused();
-  const {onSearchResults, searchResults} = useSearchRestaurant();
-  const {allRestaurants} = useSelector(state => state.allRestaurantsReducer);
+  const { onSearchResults, searchResults } = useSearchRestaurant();
+  const { allRestaurants } = useSelector(state => state.allRestaurantsReducer);
 
-  const {t} = useTranslation();
+  const { t } = useTranslation();
 
   useFocusEffect(
     useCallback(() => {
@@ -51,23 +51,23 @@ function MyProgram(props): JSX.Element {
           navigation.navigate(Screens.LOGIN_SCREEN);
           return;
         }
-  
+
         try {
           const [myLatitude, myLongitude] = await Promise.all([
             AsyncStorage.getItem('latitude'),
             AsyncStorage.getItem('longitude'),
           ]);
-  
+
           const res = await axiosInstance.get(
             `/membership/${state?.user_data?.id}/${myLatitude}/${myLongitude}`,
           );
-  
+
           setRestaurantData(res.data);
         } catch (err) {
           console.log(err);
         }
       };
-  
+
       fetchProgramData();
     }, [isFocused, state.user_data?.id]),
   );
@@ -80,7 +80,7 @@ function MyProgram(props): JSX.Element {
   );
 
   return (
-    <View style={{...backgroundStyle, ...styles.screen}}>
+    <View style={{ ...backgroundStyle, ...styles.screen }}>
       <Header
         onPressMenu={() => props.navigation.openDrawer()}
         onPressUser={() =>
@@ -111,7 +111,7 @@ function MyProgram(props): JSX.Element {
               justifyContent: 'space-between',
               alignItems: 'center',
             }}>
-            <Text style={{fontSize: 24, fontWeight: '500', color: Colors.dark}}>
+            <Text style={{ fontSize: 24, fontWeight: '500', color: XColors.dark }}>
               {t('My program')}
             </Text>
             <TouchableOpacity onPress={() => props.navigation.goBack()}>
@@ -120,7 +120,7 @@ function MyProgram(props): JSX.Element {
               </Accented>
             </TouchableOpacity>
           </View>
-          <ScrollView style={{paddingHorizontal: 20, marginBottom: 220}}>
+          <ScrollView style={{ paddingHorizontal: 20, marginBottom: 220 }}>
             {restaurantData.map((rest, index) => (
               <RestaurantCard
                 key={index}
@@ -132,8 +132,8 @@ function MyProgram(props): JSX.Element {
                       points: rest.points,
                       id: rest?.id,
                       initialTabRoute: Screens.MY_PROGRAM_SCREEN,
-                      distance:rest.distance,
-                      from:'My program',
+                      distance: rest.distance,
+                      from: 'My program',
                     },
                   })
                 }

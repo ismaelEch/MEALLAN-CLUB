@@ -21,4 +21,9 @@ export const XColors = {
   accent: '#4dc6e2',
   lightgrey: '#f3f5f4',
   orange: '#ff5c00',
+  lighter: '#f8f8f8',
+  dark: '#000000',
+  darker: '#000000',
+  primary: '#007AFF',
+  black: '#000000',
 };

@@ -64,7 +64,7 @@ const DrawerContent = (props: any) => {
     }
   };
   const handleDrawerItemPress = (routeName: string) => {
-   
+
     if (routeName === Screens.HOME_SCREEN) {
       handleNavigate(Screens.HOME_SCREEN);
     } else {
@@ -120,17 +120,8 @@ const DrawerContent = (props: any) => {
     </DrawerContentScrollView>
   );
 };
-
 export default function HomeDrawer() {
-  const currentRouteName = useNavigationState(state =>
-    getActiveRouteName(state),
-  );
-  const [activeRoute, setActiveRoute] = useState(currentRouteName);
   const { t } = useTranslation();
-
-  useEffect(() => {
-    setActiveRoute(currentRouteName ?? Screens.HOME_SCREEN);
-  }, [currentRouteName]);
 
   return (
     <Drawer.Navigator
@@ -143,13 +134,9 @@ export default function HomeDrawer() {
     >
       <Drawer.Screen
         name="DrawerHome"
-        component={HomeStack} // Wrap the HomeStack here
+        component={HomeStack}
         options={{
           title: t('Home'),
-          drawerActiveBackgroundColor:
-            activeRoute === Screens.HOME_SCREEN ? '#cff7ff' : 'transparent',
-          drawerActiveTintColor:
-            activeRoute === Screens.HOME_SCREEN ? XColors.accent : 'black',
           unmountOnBlur: true,
         }}
       />
@@ -159,10 +146,6 @@ export default function HomeDrawer() {
         options={{
           headerShown: true,
           title: t(Screens.SETTINGS_SCREEN),
-          drawerActiveBackgroundColor:
-            activeRoute === Screens.SETTINGS_SCREEN ? '#cff7ff' : 'transparent',
-          drawerActiveTintColor:
-            activeRoute === Screens.SETTINGS_SCREEN ? XColors.accent : 'black',
         }}
       />
       <Drawer.Screen
@@ -170,14 +153,6 @@ export default function HomeDrawer() {
         component={MyProgram}
         options={{
           title: t(Screens.MY_PROGRAM_SCREEN),
-          drawerActiveBackgroundColor:
-            activeRoute === Screens.MY_PROGRAM_SCREEN
-              ? '#cff7ff'
-              : 'transparent',
-          drawerActiveTintColor:
-            activeRoute === Screens.MY_PROGRAM_SCREEN
-              ? XColors.accent
-              : 'black',
         }}
       />
     </Drawer.Navigator>

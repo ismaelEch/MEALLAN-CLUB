@@ -9,7 +9,7 @@ import {
 import AntDesign from 'react-native-vector-icons/AntDesign';
 
 import { useIsFocused, useNavigation } from '@react-navigation/native';
-import { Colors } from 'react-native/Libraries/NewAppScreen';
+import { XColors } from '../config/constants';
 import { useDispatch, useSelector } from 'react-redux';
 import { Accented } from '../components/formatting.component';
 import { Header } from '../components/header.component';
@@ -30,12 +30,12 @@ export type RestaurantSearchData = RestaurantCardProps & {
   meals: Array<MealBarProps>;
 };
 
-function FavoritesScreen(props): JSX.Element {
+function FavoritesScreen(props) {
   const [favoriteRestaurants, setFavoriteRestaurants] = useState([]);
   const state = useSelector(s => s.authentication);
 
   const backgroundStyle = {
-    backgroundColor: Colors.lighter,
+    backgroundColor: XColors.lighter
   };
 
   const { onSearchResults, searchResults } = useSearchRestaurant();
@@ -125,7 +125,7 @@ function FavoritesScreen(props): JSX.Element {
               justifyContent: 'space-between',
               alignItems: 'center',
             }}>
-            <Text style={{ fontSize: 24, fontWeight: '500', color: Colors.dark }}>
+            <Text style={{ fontSize: 24, fontWeight: '500', color: XColors.dark }}>
               {t('Your Favorite Restaurants')}
             </Text>
             <TouchableOpacity
@@ -148,7 +148,7 @@ function FavoritesScreen(props): JSX.Element {
                   props.navigation.navigate(Screens.RESTAURANT_SCREEN, {
                     id: rest.id,
                     distance: rest.distance,
-                    from:'Favorites',
+                    from: 'Favorites',
                   })
                 }
                 width={280}

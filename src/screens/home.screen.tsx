@@ -9,7 +9,7 @@ import {
 } from 'react-native';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { Colors } from 'react-native/Libraries/NewAppScreen';
+import { XColors } from '../config/constants';
 import { Accented } from '../components/formatting.component';
 import { Header } from '../components/header.component';
 import { RestaurantCard } from '../components/restaurant-card.component';
@@ -23,8 +23,8 @@ import { fetchRestaurants } from '../redux/actions/retaurantAction';
 import useSearchRestaurant from '../hoc/useSearchResturants';
 import { useTranslation } from 'react-i18next';
 
-function HomeScreen(props): JSX.Element {
-  const backgroundStyle = { backgroundColor: Colors.lighter };
+function HomeScreen(props) {
+  const backgroundStyle = { backgroundColor: XColors.lighter };
   const dispatch = useDispatch();
   const isLogin = useSelector(state => state.authentication.login_user);
   const { allRestaurants, isLoadingRestaurant } = useSelector(
@@ -84,10 +84,10 @@ function HomeScreen(props): JSX.Element {
         backgroundColor: '#FFFFFF',
       }}>
       <View style={styles.specialSectionHeader}>
-      {allRestaurants?.length > 0 && (
-        <Text style={styles.specialSectionTitle}>
-          {t('Specially Selected For You')}
-        </Text>
+        {allRestaurants?.length > 0 && (
+          <Text style={styles.specialSectionTitle}>
+            {t('Specially Selected For You')}
+          </Text>
         )}
         <Accented>
           <AntDesign name="arrowright" size={24} />
@@ -110,10 +110,10 @@ function HomeScreen(props): JSX.Element {
         ))}
       </ScrollView>
       <View style={styles.verticalSectionHeader}>
-      {allRestaurants?.length > 0 && (
-        <Text style={styles.verticalSectionTitle}>
-          {t('More Restaurants For You')}
-        </Text>
+        {allRestaurants?.length > 0 && (
+          <Text style={styles.verticalSectionTitle}>
+            {t('More Restaurants For You')}
+          </Text>
         )}
       </View>
       {allRestaurants?.slice(5).map((rest, index) => (
@@ -182,7 +182,7 @@ function HomeScreen(props): JSX.Element {
             alignItems: 'center',
             marginTop: 80,
           }}>
-          <ActivityIndicator size="large" color={Colors.primary} />
+          <ActivityIndicator size="large" color={XColors.primary} />
         </View>
       ) :
         searchInput.trim() === '' ? (
@@ -228,7 +228,7 @@ const styles = StyleSheet.create({
   specialSectionTitle: {
     fontSize: 24,
     fontWeight: '500',
-    color: Colors.dark,
+    color: XColors.dark
   },
   verticalSectionHeader: {
     paddingBottom: 80,
@@ -240,7 +240,7 @@ const styles = StyleSheet.create({
   verticalSectionTitle: {
     fontSize: 24,
     fontWeight: '500',
-    color: Colors.dark,
+    color: XColors.dark
   },
 });
 

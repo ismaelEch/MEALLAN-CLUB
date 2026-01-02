@@ -1,7 +1,8 @@
-import 'react-native-gesture-handler';
+import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import React from 'react';
-import { SafeAreaView, StatusBar, StyleSheet } from 'react-native';
-import { Colors } from 'react-native/Libraries/NewAppScreen';
+import { StatusBar, StyleSheet } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
+
 
 import { Provider } from 'react-redux';
 import { NavigationContainer } from '@react-navigation/native';
@@ -35,9 +36,9 @@ GoogleSignin.configure({
 Settings.setAppID('1063334835206710');
 Settings.initializeSDK();
 
-function App(): JSX.Element {
+function App() {
   const backgroundStyle = {
-    backgroundColor: Colors.lighter,
+    backgroundColor: '#FFFFFF',
   };
 
   const [isLoading, setIsLoading] = React.useState(true);
@@ -59,20 +60,23 @@ function App(): JSX.Element {
   }
 
   return (
-    <SafeAreaView style={{ ...backgroundStyle, ...styles.app }}>
-      <StatusBar
-        barStyle={'dark-content'}
-        backgroundColor={backgroundStyle.backgroundColor}
-      />
-      <I18nextProvider i18n={i18n}>
-        <Provider store={store}>
-          <NavigationContainer>
-            <Routes />
-            <Toast />
-          </NavigationContainer>
-        </Provider>
-      </I18nextProvider>
-    </SafeAreaView>
+    <GestureHandlerRootView style={{ flex: 1 }}>
+
+      <SafeAreaView style={{ ...backgroundStyle, ...styles.app }}>
+        <StatusBar
+          barStyle={'dark-content'}
+          backgroundColor={backgroundStyle.backgroundColor}
+        />
+        <I18nextProvider i18n={i18n}>
+          <Provider store={store}>
+            <NavigationContainer>
+              <Routes />
+              <Toast />
+            </NavigationContainer>
+          </Provider>
+        </I18nextProvider>
+      </SafeAreaView>
+    </GestureHandlerRootView>
   );
 }
 

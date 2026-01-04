@@ -1,22 +1,21 @@
 import React, { useEffect, useState } from 'react';
 import {
   StyleSheet,
-  useColorScheme,
   View,
   Text,
   TextInput,
   TouchableOpacity,
 } from 'react-native';
 import AntDesign from 'react-native-vector-icons/AntDesign';
-// import {Accented} from './formatting.component';
+
 import { Accented } from '../components/formatting.component';
 
-// import {Screens, XColors} from '../config/constants';
 import { Screens, XColors } from '../config/constants';
 import { useIsFocused, useNavigation } from '@react-navigation/native';
 import { useSelector } from 'react-redux';
 import { axiosInstance } from '../utils/axiosInstance';
 import { useTranslation } from 'react-i18next';
+import { Alert } from 'react-native';
 
 function ProfileScreen() {
   const backgroundStyle = {
@@ -76,6 +75,46 @@ function ProfileScreen() {
       console.log(err);
     }
   };
+
+  const handleDeleteAccount = () => {
+  Alert.alert(
+    t('Delete account'),
+    t('Are you sure you want to delete your account permanently?'),
+    [
+      {
+        text: t('Cancel'),
+        style: 'cancel',
+      },
+      {
+        text: t('Delete'),
+        style: 'destructive',
+        onPress: async () => {
+          try {
+            await axiosInstance.delete(
+              `/users/${state?.user_data?.id}`,
+            );
+
+            // 👉 ici tu peux aussi dispatch un logout si tu en as un
+            // dispatch(logout());
+
+            navigation.reset({
+              index: 0,
+              routes: [{ name: Screens.LOGIN_SCREEN }],
+            });
+          } catch (err) {
+            console.log(err);
+            Alert.alert(
+              t('Error'),
+              t('An error occurred while deleting the account'),
+            );
+          }
+        },
+      },
+    ],
+    { cancelable: true },
+  );
+};
+
 
   const fetchProfile = async () => {
     try {
@@ -164,7 +203,18 @@ function ProfileScreen() {
             <AntDesign name="edit" size={24} />
           </Accented>
         </TouchableOpacity>
+        
       )}
+      <TouchableOpacity
+  style={styles.deleteButton}
+  onPress={handleDeleteAccount}
+>
+  <Text style={styles.deleteButtonText}>
+    {t('Delete my account')}
+  </Text>
+</TouchableOpacity>
+
+
     </View>
   );
 }
@@ -215,6 +265,19 @@ const styles = StyleSheet.create({
     borderRadius: 6,
     alignSelf: 'flex-end',
   },
+  deleteButton: {
+  marginTop: 32,
+  backgroundColor: '#e74c3c',
+  paddingVertical: 12,
+  borderRadius: 8,
+  alignItems: 'center',
+},
+deleteButtonText: {
+  color: '#fff',
+  fontSize: 16,
+  fontWeight: 'bold',
+},
+
 });
 
 export default ProfileScreen;

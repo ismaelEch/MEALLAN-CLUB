@@ -6,6 +6,7 @@ const initialState = {
   is_loading: false,
   user_data: {},
   login_user: false, 
+  is_guest: true, 
 };
 
 const authenticationReducer = (state = initialState, action) => {
@@ -16,6 +17,12 @@ const authenticationReducer = (state = initialState, action) => {
       return { ...state, login_user: action.payload }; // Update login_user in state
     case IS_LOADING_AUTH:
       return { ...state, is_loading: action.payload };
+    case 'SET_GUEST':
+      return {
+        ...state,
+        is_guest: action.payload
+      };
+
     default:
       return state;
   }

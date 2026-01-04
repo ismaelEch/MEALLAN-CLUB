@@ -4,3 +4,4 @@ import {authReducer} from './reducers/auth.reducer';
 const rootReducer = combineReducers({auth: authReducer});
 
 export const store = createStore(rootReducer);
+export type AppDispatch = typeof store.dispatch;

@@ -31,7 +31,9 @@ const getActiveRouteName = (state: any) => {
 
 const DrawerContent = (props: any) => {
   const dispatch = useDispatch();
-  const navigation = useNavigation();
+  //const navigation = useNavigation();
+  const { navigation } = props;
+
   const currentRouteName = useNavigationState(state =>
     getActiveRouteName(state),
   );
@@ -46,10 +48,13 @@ const DrawerContent = (props: any) => {
 
   const handleLogout = async () => {
     dispatch({ type: LOGIN_USER, payload: false });
+    dispatch({ type: 'SET_GUEST', payload: false });
     dispatch({ type: USER_DATA, payload: {} });
     await AsyncStorage.setItem('token', '');
     navigation.navigate(Screens.LOGIN_SCREEN);
   };
+
+
 
   const handleNavigate = (screen: string) => {
     setActiveRoute(screen);

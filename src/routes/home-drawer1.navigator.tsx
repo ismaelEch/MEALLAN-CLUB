@@ -44,6 +44,7 @@ const DrawerContent = (props: any) => {
 
   const handleLogout = async () => {
     dispatch({type: LOGIN_USER, payload: false});
+    dispatch({ type: 'SET_GUEST', payload: false });
     dispatch({type: USER_DATA, payload: {}});
     await AsyncStorage.setItem('token', '');
     navigation.navigate(Screens.LOGIN_SCREEN);

@@ -14,18 +14,20 @@ import {
   KeyboardAvoidingView,
   ScrollView,
 } from 'react-native';
-import { useDispatch, useSelector } from 'react-redux';
-
+import {useDispatch, useSelector} from 'react-redux';
+import {
+  LOGIN_USER,
+} from '../redux/types/authentication_types';
 import {
   appleAuth,
   AppleButton,
 } from '@invertase/react-native-apple-authentication';
-import { _login_apple } from '../redux/actions/authentication';
+import { _login_apple } from '../redux/actions/authentication'; 
 
-import { Accented, Heading } from '../components/formatting.component';
-import { Input, PasswordInput } from '../components/input.component';
+import {Accented, Heading} from '../components/formatting.component';
+import {Input, PasswordInput} from '../components/input.component';
 
-import { Screens, XColors } from '../config/constants';
+import {Screens, XColors} from '../config/constants';
 import {
   _login,
   _login_facebook,
@@ -43,12 +45,12 @@ import {
   GoogleSignin,
   statusCodes,
 } from '@react-native-google-signin/google-signin';
-import { useNavigation } from '@react-navigation/native';
-import { useTranslation } from 'react-i18next';
+import {useNavigation} from '@react-navigation/native';
+import {useTranslation} from 'react-i18next';
 
-const { width, height } = Dimensions.get('window');
+const {width, height} = Dimensions.get('window');
 
-function LoginScreen(props) {
+function LoginScreen(props): JSX.Element {
   const paddingVertical = height * 0.02;
   const paddingHorizontal = width * 0.05;
   const [email, setEmail] = React.useState('');
@@ -57,14 +59,14 @@ function LoginScreen(props) {
   const dispatch = useDispatch();
   const navigation = useNavigation();
 
-  const { t } = useTranslation();
+  const {t} = useTranslation();
 
   const backgroundStyle = {
-    backgroundColor: XColors.lighter
+    backgroundColor: XColors.lighter,
   };
 
   const handleSignIn = async () => {
-    const userData = { email, password };
+    const userData = {email, password};
 
     const responseData = await dispatch(_login(userData));
 
@@ -94,10 +96,10 @@ function LoginScreen(props) {
       if (Platform.OS === 'ios') {
 
         const result = await AuthenticationToken.getAuthenticationTokenIOS();
-
+        
         if (result) {
           const responseData = await dispatch(
-            _login_facebook({ authToken: result }),
+            _login_facebook({authToken: result}),
           );
 
           if (responseData?.error) {
@@ -121,7 +123,7 @@ function LoginScreen(props) {
 
         if (result?.accessToken) {
           const responseData = await dispatch(
-            _login_facebook({ authToken: result?.accessToken }),
+            _login_facebook({authToken: result?.accessToken}),
           );
 
           if (responseData?.error) {
@@ -141,18 +143,18 @@ function LoginScreen(props) {
           throw new Error('Failed to get token');
         }
       }
-    } catch (error) { }
+    } catch (error) {}
   };
 
   const handleGoogleLogin = async () => {
     try {
-      await GoogleSignin.hasPlayServices({ showPlayServicesUpdateDialog: true });
+      await GoogleSignin.hasPlayServices({showPlayServicesUpdateDialog: true});
 
       const signInResult = await GoogleSignin.signIn();
       let idToken = signInResult.data?.idToken;
 
       if (idToken) {
-        const responseData = await dispatch(_login_google({ idToken }));
+        const responseData = await dispatch(_login_google({idToken}));
 
         if (responseData?.error) {
           Toast.show({
@@ -185,32 +187,32 @@ function LoginScreen(props) {
   };
 
   const handleAppleLogin = async () => {
-    try {
-      const appleAuthRequestResponse = await appleAuth.performRequest({
-        requestedOperation: appleAuth.Operation.LOGIN,
-        requestedScopes: [appleAuth.Scope.EMAIL, appleAuth.Scope.FULL_NAME],
-      });
+  try {
+    const appleAuthRequestResponse = await appleAuth.performRequest({
+      requestedOperation: appleAuth.Operation.LOGIN,
+      requestedScopes: [appleAuth.Scope.EMAIL, appleAuth.Scope.FULL_NAME],
+    });
 
-      const { identityToken, nonce } = appleAuthRequestResponse;
+    const { identityToken, nonce } = appleAuthRequestResponse;
 
-      if (identityToken) {
-        // Dispatch vers votre action Redux
-        const responseData = await dispatch(_login_apple({ identityToken, nonce }));
+    if (identityToken) {
+      // Dispatch vers votre action Redux
+      const responseData = await dispatch(_login_apple({ identityToken, nonce }));
 
-        if (responseData?.error) {
-          Toast.show({ type: 'error', text1: responseData?.error });
-        } else {
-          Toast.show({ type: 'success', text1: t('Login successfully') });
-          props.navigation.navigate(Screens.HOME_SCREEN);
-        }
-      }
-    } catch (error: any) {
-      if (error.code !== appleAuth.Error.CANCELED) {
-        console.error(error);
+      if (responseData?.error) {
+        Toast.show({ type: 'error', text1: responseData?.error });
+      } else {
+        Toast.show({ type: 'success', text1: t('Login successfully') });
+        props.navigation.navigate(Screens.HOME_SCREEN);
       }
     }
-  };
-  const keyboardOffset = Platform.OS === 'ios' ? 64 : 0;
+  } catch (error: any) {
+    if (error.code !== appleAuth.Error.CANCELED) {
+      console.error(error);
+    }
+  }
+};
+  const keyboardOffset = Platform.OS === 'ios' ? 64 : 0; 
 
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: backgroundStyle.backgroundColor }}>
@@ -224,13 +226,12 @@ function LoginScreen(props) {
           keyboardShouldPersistTaps="handled"       // garder les press sur les inputs
           contentContainerStyle={{ flexGrow: 1 }}
         >
-
+          
           <View style={{ ...backgroundStyle, ...styles.screen }}>
             <View style={styles.headerButtonsRight}>
               <TouchableOpacity
-                onPress={() => {
-                  navigation.navigate(Screens.HOME_SCREEN);
-                }}>
+                onPress={() => { dispatch({ type: 'SET_GUEST', payload: true }); }}
+                >
                 <View style={styles.iconButton}>
                   <Accented>
                     <AntDesign name="arrowleft" size={20} />
@@ -251,7 +252,7 @@ function LoginScreen(props) {
                 <Text>{t('Login')}</Text>
               </Heading>
             </View>
-
+  
             <View style={{ backgroundColor: 'white', padding: 20 }}>
               <Input
                 icon="mail"
@@ -277,7 +278,7 @@ function LoginScreen(props) {
                 </TouchableOpacity>
               </View>
               <View style={{ height: 20 }} />
-
+  
               <View style={{ justifyContent: 'center', alignItems: 'center' }}>
                 <View
                   style={{
@@ -340,50 +341,71 @@ function LoginScreen(props) {
                   {t('OR')}
                 </Text>
               </View>
-              <View
-                style={{
-                  flexDirection: 'row',
-                  justifyContent: 'center',
-                  alignItems: 'center',
-                  marginTop: 10,
-                }}>
-                <TouchableOpacity onPress={handleFBLogin}>
-                  <Image
-                    style={{ width: 50, height: 50 }}
-                    source={require('../../assets/facebook.png')}
-                  />
-                </TouchableOpacity>
-                <View style={{ width: 20 }} />
-                <TouchableOpacity onPress={handleGoogleLogin}>
-                  <Image
-                    style={{ width: 50, height: 50 }}
-                    source={require('../../assets/google.png')}
-                  />
-                </TouchableOpacity>
 
-                {Platform.OS === 'ios' && (
-                  <>
-                    <View style={{ width: 20 }} />
-                    <TouchableOpacity onPress={handleAppleLogin}>
-                      <Image
-                        style={{ width: 50, height: 50 }}
-                        source={require('../../assets/apple.png')} // Assurez-vous d'avoir l'icône
-                      />
-                    </TouchableOpacity>
-                  </>
-                )}
-              </View>
+                <View style={{ marginTop: 20 }}>
+
+            {/* FACEBOOK */}
+            <TouchableOpacity
+              style={[styles.socialButton, { backgroundColor: '#1877F2' }]}
+              onPress={handleFBLogin}
+              activeOpacity={0.8}
+            >
+              <Image
+                source={require('../../assets/facebook.png')}
+                style={styles.socialIcon}
+              />
+              <Text style={styles.socialText}>{t('Continue with Facebook')}</Text>
+            </TouchableOpacity>
+
+            {/* GOOGLE */}
+            <TouchableOpacity
+              style={[
+                styles.socialButton,
+                {
+                  backgroundColor: '#fff',
+                  borderWidth: 1,
+                  borderColor: '#ddd',
+                },
+              ]}
+              onPress={handleGoogleLogin}
+              activeOpacity={0.8}
+            >
+              <Image
+                source={require('../../assets/google.png')}
+                style={styles.socialIcon}
+              />
+              <Text style={[styles.socialText, { color: '#000' }]}>
+                {t('Continue with Google')}
+              </Text>
+            </TouchableOpacity>
+
+            {/* APPLE (OFFICIEL – obligatoire) */}
+            {Platform.OS === 'ios' && (
+              <AppleButton
+                buttonStyle={AppleButton.Style.BLACK}
+                buttonType={AppleButton.Type.SIGN_IN}
+                style={{
+                  width: '100%',
+                  height: 48,
+                  marginTop: 12,
+                  borderRadius: 8,
+                }}
+                onPress={handleAppleLogin}
+              />
+            )}
+               </View>
+
             </View>
           </View>
         </ScrollView>
       </KeyboardAvoidingView>
     </SafeAreaView>
   );
-
+  
 }
 
 const styles = StyleSheet.create({
-  screen: { flex: 1, backgroundColor: 'white', justifyContent: 'center' },
+  screen: {flex: 1, backgroundColor: 'white', justifyContent: 'center'},
   iconButton: {
     width: 45,
     height: 45,
@@ -405,6 +427,28 @@ const styles = StyleSheet.create({
   loginButtonText: {
     flexWrap: 'nowrap',
   },
+  socialButton: {
+  flexDirection: 'row',
+  alignItems: 'center',
+  justifyContent: 'center',
+  height: 48,
+  borderRadius: 8,
+  marginBottom: 12,
+},
+
+socialIcon: {
+  width: 20,
+  height: 20,
+  marginRight: 10,
+  resizeMode: 'contain',
+},
+
+socialText: {
+  color: '#fff',
+  fontSize: 15,
+  fontWeight: '500',
+},
+
 });
 
 export default LoginScreen;

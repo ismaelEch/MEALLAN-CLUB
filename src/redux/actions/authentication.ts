@@ -76,6 +76,7 @@ export const _login_google = (data: {idToken: string}) => {
           },
         });
         dispatch({type: LOGIN_USER, payload: true});
+        dispatch({ type: 'SET_GUEST', payload: false });
         return response;
       } else {
         return {error: 'Failed to login with google'};
@@ -117,6 +118,7 @@ export const _login_facebook = (data: {authToken: string}) => {
           },
         });
         dispatch({type: LOGIN_USER, payload: true});
+        dispatch({ type: 'SET_GUEST', payload: false });
         return response;
       } else {
         return {error: 'Failed to login with google'};
@@ -169,6 +171,7 @@ export const _login_apple = (data: { identityToken: string }) => {
         
         // Marque l'utilisateur comme connecté
         dispatch({ type: LOGIN_USER, payload: true });
+        dispatch({ type: 'SET_GUEST', payload: false });
         return response;
       } else {
         return { error: 'Failed to login with Apple' };
@@ -216,6 +219,7 @@ export const _login = (data: {email: any; password: any}) => {
           },
         });
         dispatch({type: LOGIN_USER, payload: true});
+        dispatch({ type: 'SET_GUEST', payload: false });
         return response;
       } else {
         return {error: 'Invalid email or password'};

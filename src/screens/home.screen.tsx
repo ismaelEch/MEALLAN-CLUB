@@ -6,10 +6,10 @@ import {
   View,
   ActivityIndicator,
   RefreshControl,
+  Platform, TouchableOpacity, Linking
 } from 'react-native';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { XColors } from '../config/constants';
 import { Accented } from '../components/formatting.component';
 import { Header } from '../components/header.component';
 import { RestaurantCard } from '../components/restaurant-card.component';
@@ -22,8 +22,12 @@ import { LOGIN_USER, USER_DATA } from '../redux/types/authentication_types';
 import { fetchRestaurants } from '../redux/actions/retaurantAction';
 import useSearchRestaurant from '../hoc/useSearchResturants';
 import { useTranslation } from 'react-i18next';
+import { check, PERMISSIONS, RESULTS } from 'react-native-permissions';
+import {XColors} from '../config/constants';
 
-function HomeScreen(props) {
+
+function HomeScreen(props): JSX.Element {
+  const [locationStatus, setLocationStatus] = useState<'granted' | 'denied' | 'unknown'>('unknown');
   const backgroundStyle = { backgroundColor: XColors.lighter };
   const dispatch = useDispatch();
   const isLogin = useSelector(state => state.authentication.login_user);
@@ -42,6 +46,32 @@ function HomeScreen(props) {
   }, []);
 
   useEffect(() => {
+  const checkLocationPermission = async () => {
+    try {
+      const permission =
+        Platform.OS === 'ios'
+          ? PERMISSIONS.IOS.LOCATION_WHEN_IN_USE
+          : PERMISSIONS.ANDROID.ACCESS_FINE_LOCATION;
+
+      const result = await check(permission);
+
+      if (result === RESULTS.GRANTED) {
+        setLocationStatus('granted');
+      } else if (result === RESULTS.DENIED || result === RESULTS.BLOCKED) {
+        setLocationStatus('denied');
+      } else {
+        setLocationStatus('unknown');
+      }
+    } catch (e) {
+      setLocationStatus('unknown');
+    }
+  };
+
+  checkLocationPermission();
+}, []);
+
+
+  useEffect(() => {
     const checkAuth = async () => {
       const token = await AsyncStorage.getItem('token');
       if (token) {
@@ -56,6 +86,7 @@ function HomeScreen(props) {
         dispatch({ type: LOGIN_USER, payload: true });
       } else {
         dispatch({ type: LOGIN_USER, payload: false });
+
       }
     };
     checkAuth();
@@ -67,11 +98,52 @@ function HomeScreen(props) {
     }, []),
   );
 
+
+
+  
+
   useEffect(() => {
     if (allRestaurants?.length > 0) {
       console.log('[HomeScreen] First restaurant:', JSON.stringify(allRestaurants[0]).substring(0, 200));
     }
   }, [allRestaurants, isLoadingRestaurant]);
+
+  const renderEmptyState = () => {
+  // Cas 1 : localisation refusée
+  if (locationStatus === 'denied') {
+    return (
+      <View style={styles.emptyContainer}>
+        <Text style={styles.emptyTitle}>
+          {t('Location disabled')}
+        </Text>
+        <Text style={styles.emptyText}>
+          {t(
+            'No data msg',
+          )}
+        </Text>
+
+        <TouchableOpacity
+          style={styles.settingsButton}
+          onPress={() => Linking.openSettings()}
+        >
+          <Text style={styles.settingsButtonText}>
+            {t('Open settings')}
+          </Text>
+        </TouchableOpacity>
+      </View>
+    );
+  }
+
+  // Cas 2 (par défaut) : aucun restaurant
+  return (
+    <View style={styles.emptyContainer}>
+      <Text style={styles.emptyTitle}>🍽️ {t('No restaurant nearby')}</Text>
+      <Text style={styles.emptyText}>
+        {t('try later')}
+      </Text>
+    </View>
+  );
+};
 
   const renderSpeciallySelected = () => (
     <ScrollView
@@ -84,10 +156,10 @@ function HomeScreen(props) {
         backgroundColor: '#FFFFFF',
       }}>
       <View style={styles.specialSectionHeader}>
-        {allRestaurants?.length > 0 && (
-          <Text style={styles.specialSectionTitle}>
-            {t('Specially Selected For You')}
-          </Text>
+      {allRestaurants?.length > 0 && (
+        <Text style={styles.specialSectionTitle}>
+          {t('Specially Selected For You')}
+        </Text>
         )}
         <Accented>
           <AntDesign name="arrowright" size={24} />
@@ -110,10 +182,10 @@ function HomeScreen(props) {
         ))}
       </ScrollView>
       <View style={styles.verticalSectionHeader}>
-        {allRestaurants?.length > 0 && (
-          <Text style={styles.verticalSectionTitle}>
-            {t('More Restaurants For You')}
-          </Text>
+      {allRestaurants?.length > 0 && (
+        <Text style={styles.verticalSectionTitle}>
+          {t('More Restaurants For You')}
+        </Text>
         )}
       </View>
       {allRestaurants?.slice(5).map((rest, index) => (
@@ -159,6 +231,8 @@ function HomeScreen(props) {
     </View>
   );
 
+
+
   return (
     <View style={{ ...backgroundStyle, ...styles.screen }}>
       <Header
@@ -174,50 +248,35 @@ function HomeScreen(props) {
         switchIcon="hearto"
       />
 
-      {loading ? (
-        <View
-          style={{
-            flex: 1,
-            justifyContent: 'center',
-            alignItems: 'center',
-            marginTop: 80,
-          }}>
-          <ActivityIndicator size="large" color={XColors.primary} />
-        </View>
-      ) :
-        searchInput.trim() === '' ? (
-          renderSpeciallySelected()
-        ) : searchResults.length > 0 ? (
-          <MealSearch results={searchResults} heartIcon="hearto" />
-        ) : (
-          <View
-            style={{
-              flex: 1,
-              marginTop: 80,
-              justifyContent: 'center',
-              alignItems: 'center',
-            }}>
-            <View style={{ height: 80 }}>
-              {!isLoadingRestaurant && (
-                <Text
-                  style={{
-                    color: '#3e3e3e',
-                    fontSize: 24,
-                    textAlign: 'center',
-                    fontWeight: '500',
-                  }}>
-                  {t('No restaurants found!')}
-                </Text>
-              )}
-            </View>
-          </View>
-        )}
+<View style={{ flex: 1 }}>
+  {loading ? (
+    <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', marginTop: 80 }}>
+      <ActivityIndicator size="large" color={XColors.primary} />
+    </View>
+  ) : searchInput.trim() === '' ? (
+    allRestaurants.length > 0 ? (
+      renderSpeciallySelected()
+    ) : (
+      renderEmptyState()
+    )
+  ) : searchResults.length > 0 ? (
+    <MealSearch results={searchResults} heartIcon="hearto" />
+  ) : (
+    renderEmptyState()
+  )}
+</View>
+
+
+
+
     </View>
   );
 }
 
 const styles = StyleSheet.create({
-  screen: {},
+  screen: {
+  flex: 1,
+},
   specialSectionHeader: {
     padding: 20,
     display: 'flex',
@@ -228,7 +287,7 @@ const styles = StyleSheet.create({
   specialSectionTitle: {
     fontSize: 24,
     fontWeight: '500',
-    color: XColors.dark
+    color: XColors.dark,
   },
   verticalSectionHeader: {
     paddingBottom: 80,
@@ -240,8 +299,43 @@ const styles = StyleSheet.create({
   verticalSectionTitle: {
     fontSize: 24,
     fontWeight: '500',
-    color: XColors.dark
+    color: XColors.dark,
   },
+  emptyContainer: {
+  flex: 1,
+  marginTop: 80,
+  paddingHorizontal: 30,
+  justifyContent: 'center',
+  alignItems: 'center',
+},
+
+emptyTitle: {
+  fontSize: 22,
+  fontWeight: '600',
+  textAlign: 'center',
+  marginBottom: 12,
+  color: '#2c2c2c',
+},
+
+emptyText: {
+  fontSize: 16,
+  textAlign: 'center',
+  color: '#666',
+  marginBottom: 20,
+},
+
+settingsButton: {
+  backgroundColor: '#000',
+  paddingHorizontal: 20,
+  paddingVertical: 12,
+  borderRadius: 8,
+},
+
+settingsButtonText: {
+  color: '#fff',
+  fontSize: 15,
+  fontWeight: '500',
+}
 });
 
 export default HomeScreen;

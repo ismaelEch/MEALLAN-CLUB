@@ -63,5 +63,16 @@
   "free_meals_description": "Puedes tener estas comidas gratis con {{points}} puntos",
   "Added in Favorites" : "Added in Favourite ",
   "Removed from Favorites" : "Eliminado de favoritos",
-  "Failed to remove from favorites" : "No se pudo eliminar de favoritos"
+  "Failed to remove from favorites" : "No se pudo eliminar de favoritos",
+  "Delete account": "Eliminar cuenta",
+  "Delete my account": "Eliminar mi cuenta",
+  "Are you sure you want to delete your account permanently?": "¿Seguro que desea eliminar su cuenta permanentemente ?",
+  "Delete": "Eliminar",
+  "Error": "Error",
+  "An error occurred while deleting the account": "Se produjo un error al eliminar la cuenta",
+  "Continue with Google" : "Continuar con Google",
+  "Continue with Facebook": "Continuar con Facebook",
+  "No data msg": "Para ver restaurantes cercanos, habilite los servicios de ubicación en su configuración",
+  "No restaurant nearby" : "No hay restaurantes cerca",
+  "try later": "Prueba en otra área o inténtalo de nuevo más tarde"
 }

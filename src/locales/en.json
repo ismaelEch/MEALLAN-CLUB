@@ -63,5 +63,16 @@
   "free_meals_description": "You can have these meals free of charge with {{points}} points",
   "Added in Favorites": "Added in Favourite ",
   "Removed from Favorites": "Removed from Favorites",
-  "Failed to remove from favorites": "Failed to remove from favorites"
+  "Failed to remove from favorites": "Failed to remove from favorites",
+  "Delete account": "Delete account",
+  "Delete my account": "Delete my account",
+  "Are you sure you want to delete your account permanently?": "Are you sure you want to delete your account permanently ?",
+  "Delete": "Delete",
+  "Error": "Error",
+  "An error occurred while deleting the account": "An error occurred while deleting the account",
+  "Continue with Google" : "Continue with Google",
+  "Continue with Facebook": "Continue with Facebook",
+  "No data msg" : "To view nearby restaurants, please enable location services in your settings.",
+  "No restaurant nearby" : "No restaurants nearby",
+  "try later": "Try another area or try again later"
 }

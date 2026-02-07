@@ -92,15 +92,14 @@ function HomeScreen(props): JSX.Element {
     checkAuth();
   }, [dispatch]);
 
-  useFocusEffect(
-    useCallback(() => {
+useFocusEffect(
+  useCallback(() => {
+    if (!allRestaurants || allRestaurants.length === 0) {
       fetchRestaurants();
-    }, []),
-  );
+    }
+  }, [allRestaurants]),
+);
 
-
-
-  
 
   useEffect(() => {
     if (allRestaurants?.length > 0) {

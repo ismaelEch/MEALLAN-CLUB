@@ -6,12 +6,12 @@ import {
   DrawerContentScrollView,
 } from '@react-navigation/drawer';
 import { useDispatch } from 'react-redux';
-import { createStackNavigator } from '@react-navigation/stack'; // Import Stack Navigator
+import { createStackNavigator } from '@react-navigation/stack';
 import HomeStack from './home-stack.navigator';
 import SettingsScreen from '../screens/settings.screen';
 import { Screens, XColors } from '../config/constants';
 import { LOGIN_USER, USER_DATA } from '../redux/types/authentication_types';
-import { useNavigationState, useNavigation } from '@react-navigation/native';
+import { useNavigationState } from '@react-navigation/native';
 import MyProgram from '../screens/my-program.screen';
 import { useTranslation } from 'react-i18next';
 
@@ -31,7 +31,6 @@ const getActiveRouteName = (state: any) => {
 
 const DrawerContent = (props: any) => {
   const dispatch = useDispatch();
-  //const navigation = useNavigation();
   const { navigation } = props;
 
   const currentRouteName = useNavigationState(state =>
@@ -60,10 +59,8 @@ const DrawerContent = (props: any) => {
     setActiveRoute(screen);
 
     if (screen === Screens.HOME_SCREEN) {
-      navigation.reset({
-        index: 0,
-        routes: [{ name: 'DrawerHome' }],
-      });
+        navigation.navigate('DrawerHome');
+
     } else {
       navigation.navigate(screen);
     }
@@ -141,8 +138,8 @@ export default function HomeDrawer() {
         name="DrawerHome"
         component={HomeStack}
         options={{
-          title: t('Home'),
-          unmountOnBlur: true,
+          title: t('Home')
+          //unmountOnBlur: true,
         }}
       />
       <Drawer.Screen

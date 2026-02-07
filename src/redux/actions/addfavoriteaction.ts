@@ -47,29 +47,19 @@ export const removeFromFavorites = (restaurantId) => {
 };
 
 
-export const fetchAllFavoriteRestaurant = () => async (dispatch: any) => {
+export const fetchAllFavoriteRestaurant = () => async (dispatch, getState) => {
   try {
-    const res = await axiosInstance.get(
-      `/favorites/${store.getState().authentication?.user_data?.id}`,
-    );
+    const userId = getState().authentication?.user_data?.id;
+    if (!userId) return;
 
-    const existingRestaurant =
-      store.getState().allRestaurantsReducer.allRestaurants;
+    const res = await axiosInstance.get(`/favorites/${userId}`);
 
-    const data: any = [];
-
-    res?.data?.forEach(x => {
-      const existingRes = existingRestaurant.find(
-        v => v.id === x.restaurant?.id,
-      );
-
-      if (existingRes) {
-        data.push(existingRes);
-      }
+    dispatch({
+      type: 'ALL_FAVORITES',
+      payload: res.data,
     });
-
-    store.dispatch({ type: 'ALL_FAVORITES', payload: data });
   } catch (err) {
-    console.log(err);
+    console.log('❌ fetchAllFavoriteRestaurant error', err);
   }
 };
+

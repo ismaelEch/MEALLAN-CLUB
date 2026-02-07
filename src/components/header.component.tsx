@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import {
   View,
   TextInput,
@@ -91,7 +91,6 @@ const styles = StyleSheet.create({
     backgroundColor: 'white',
     elevation: 3,
   },
-  screen: {},
   header: {
     display: 'flex',
     flexDirection: 'column',

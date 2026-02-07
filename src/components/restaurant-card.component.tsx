@@ -1,12 +1,9 @@
-import { useFocusEffect } from '@react-navigation/native';
-import React, { PropsWithChildren, useCallback, useState } from 'react';
+import React, { PropsWithChildren, useState } from 'react';
 import {
-  Alert,
   Image,
   ImageSourcePropType,
   StyleSheet,
   Text,
-  ToastAndroid,
   TouchableNativeFeedback,
   TouchableOpacity,
   View,
@@ -14,7 +11,6 @@ import {
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import { useDispatch, useSelector } from 'react-redux';
 import { CDNURL } from '../config/Url';
-import { fetchAllFavoriteRestaurant } from '../redux/actions/addfavoriteaction';
 import { axiosInstance } from '../utils/axiosInstance';
 import { XColors } from '../config/constants';
 import { useTranslation } from 'react-i18next';
@@ -55,55 +51,28 @@ export const RestaurantCard = (props: RestaurantCardProps) => {
     return `${Number(distanceInKM || 0).toFixed(2)} ${t('km')}`;
   }
 
+  const allFavorites = useSelector(
+  (state: any) => state.addFavoritesReducer.allFavorites
+);
+
+  const isFavorite = allFavorites?.some(
+  fav => fav?.restaurant?.id === props.id
+);
+
+
   const handleAddFavoriteRestaurant = async () => {
-    let dto = {
-      userId: state?.user_data?.id,
+  if (isFavorite) {
+    await axiosInstance.delete(`/favorites/${props.id}`);
+    dispatch({ type: 'REMOVE_FAVORITE', payload: props.id });
+  } else {
+    const res = await axiosInstance.post('/favorites/add', {
+      userId: state.user_data.id,
       restaurantId: props.id,
-    };
+    });
+    dispatch({ type: 'ADD_FAVORITE', payload: res.data });
+  }
+};
 
-    try {
-      if (favoriteDto.isFavorite) {
-        let res = await axiosInstance.delete(`/favorites/${favoriteDto.favId}`);
-        if (res) {
-          setFavorite(res?.data);
-          dispatch(fetchAllFavoriteRestaurant() as any);
-          setFavorite(res?.data);
-          ToastAndroid.show(t('Removed from Favorites'), ToastAndroid.SHORT);
-        }
-      } else {
-        let res = await axiosInstance.post('/favorites/add', dto);
-        setFavorite(res?.data);
-        if (res) {
-          setFavorite(res?.data);
-          dispatch(fetchAllFavoriteRestaurant() as any);
-          ToastAndroid.show(t('Added in Favorites'), ToastAndroid.SHORT);
-        }
-      }
-    } catch (error) {
-      // handle error
-    }
-  };
-  useFocusEffect(
-    useCallback(() => {
-      (async () => {
-        const favorites = await axiosInstance.get(
-          `/favorites/${state?.user_data?.id}`,
-        );
-
-        let favArr = favorites.data;
-        let isFavoriteRestaurant = favArr.some(
-          (favoriteItem: any) => favoriteItem?.restaurant?.id === props.id,
-        );
-        setFavoriteDto({
-          ...favoriteDto,
-          isFavorite: isFavoriteRestaurant,
-          favId: favArr.filter(
-            (favoriteItem: any) => favoriteItem?.restaurant?.id === props.id,
-          )[0]?.id,
-        });
-      })();
-    }, [props.id, favorite]),
-  );
 
   return (
     <View>
@@ -112,7 +81,7 @@ export const RestaurantCard = (props: RestaurantCardProps) => {
           onPress={handleAddFavoriteRestaurant}
           style={styles.favoriteButton}>
           <AntDesign
-            name={favoriteDto.isFavorite ? 'heart' : props.heartIcon}
+            name={isFavorite ? 'heart' : 'hearto'}
             size={16}
             color="tomato"
           />

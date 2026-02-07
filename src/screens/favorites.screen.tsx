@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import {
   ScrollView,
   StyleSheet,
@@ -23,16 +23,19 @@ import { Screens } from '../config/constants';
 import useSearchRestaurant from '../hoc/useSearchResturants';
 import { fetchAllFavoriteRestaurant } from '../redux/actions/addfavoriteaction';
 import { useTranslation } from 'react-i18next';
-import AsyncStorage from '@react-native-async-storage/async-storage';
-import { axiosInstance } from '../utils/axiosInstance';
 
 export type RestaurantSearchData = RestaurantCardProps & {
   meals: Array<MealBarProps>;
 };
 
 function FavoritesScreen(props) {
-  const [favoriteRestaurants, setFavoriteRestaurants] = useState([]);
   const state = useSelector(s => s.authentication);
+  const allFavorites = useSelector(
+  state => state.addFavoritesReducer.allFavorites
+);
+const favoriteRestaurants = (allFavorites ?? [])
+  .map(f => f?.restaurant)
+  .filter(Boolean);
 
   const backgroundStyle = {
     backgroundColor: XColors.lighter
@@ -47,47 +50,6 @@ function FavoritesScreen(props) {
   const restaurantData = useSelector(
     state => state.addFavoritesReducer.allFavorites,
   );
-  const fetchData = async () => {
-    if (!state.user_data?.id) {
-      navigation.navigate(Screens.LOGIN_SCREEN);
-      return;
-    }
-
-    try {
-      // Get location
-      const [myLatitude, myLongitude] = await Promise.all([
-        AsyncStorage.getItem('latitude'),
-        AsyncStorage.getItem('longitude'),
-      ]);
-
-      // Fetch all restaurants
-      const restaurantRes = await axiosInstance.get(
-        `/membership/${state?.user_data?.id}/${myLatitude}/${myLongitude}`
-      );
-      const allRestaurants = restaurantRes.data;
-
-      // Fetch favorites
-      const favRes = await axiosInstance.get(
-        `/favorites/${state?.user_data?.id}`
-      );
-      const favoriteArr = favRes.data;
-      // Create a Set of favorite restaurant IDs
-      const favoriteRestaurantIds = new Set(
-        favoriteArr.map(fav => fav?.restaurant?.id)
-      );
-
-      // Filter restaurants that are in favorites
-      const onlyFavoriteRestaurants = allRestaurants.filter(restaurant =>
-        favoriteRestaurantIds.has(restaurant?.id)
-      );
-
-      // Save filtered result to state
-      setFavoriteRestaurants(onlyFavoriteRestaurants);
-
-    } catch (err) {
-      console.log('Error fetching data:', err);
-    }
-  };
   const { t } = useTranslation();
 
   useEffect(() => {
@@ -96,10 +58,13 @@ function FavoritesScreen(props) {
     }
   }, [isFocused, navigation, state]);
 
+
   useEffect(() => {
+  if (state.user_data?.id) {
     dispatch(fetchAllFavoriteRestaurant() as any);
-    fetchData();
-  }, [state, isFocused, dispatch]);
+  }
+}, [dispatch, state.user_data?.id]);
+
 
   return (
     <View style={{ ...backgroundStyle, ...styles.screen }}>
@@ -142,7 +107,7 @@ function FavoritesScreen(props) {
           <ScrollView horizontal>
             {favoriteRestaurants.map((rest, index) => (
               <RestaurantCard
-                key={index}
+                key={rest.id}
                 {...rest}
                 onClick={() =>
                   props.navigation.navigate(Screens.RESTAURANT_SCREEN, {

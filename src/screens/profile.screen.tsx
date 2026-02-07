@@ -44,37 +44,25 @@ function ProfileScreen() {
   }, [isFocused, navigation, state]);
 
   const handleSave = async () => {
-    try {
-      const data = {};
+  try {
+    const data = {
+      firstname: firstName || null,
+      lastname: lastName || null,
+      email: email || null,
+      phone: phone || null,
+    };
 
-      if (firstName) {
-        data.firstname = firstName;
-      }
+    await axiosInstance.put(
+      `/users/${state?.user_data?.id}`,
+      data,
+    );
 
-      if (lastName) {
-        data.lastname = lastName;
-      }
-
-      if (email) {
-        data.email = email;
-      }
-
-      if (phone) {
-        data.phone = phone;
-      }
-
-
-      const res = await axiosInstance.put(
-        `/users/${state?.user_data?.id}`,
-        data,
-      );
-
-      fetchProfile();
-      setEditing(false);
-    } catch (err) {
-      console.log(err);
-    }
-  };
+    await fetchProfile(); 
+    setEditing(false);
+  } catch (err) {
+    console.log(err);
+  }
+};
 
   const handleDeleteAccount = () => {
   Alert.alert(
@@ -94,7 +82,6 @@ function ProfileScreen() {
               `/users/${state?.user_data?.id}`,
             );
 
-            // 👉 ici tu peux aussi dispatch un logout si tu en as un
             // dispatch(logout());
 
             navigation.reset({
@@ -132,8 +119,11 @@ function ProfileScreen() {
   };
 
   useEffect(() => {
+  if (isFocused) {
     fetchProfile();
-  }, []);
+  }
+}, [isFocused]);
+
 
   const handleCancel = () => {
     // Discard changes
@@ -151,7 +141,7 @@ function ProfileScreen() {
         <TextInput
           placeholderTextColor={XColors.dark}
           style={styles.input}
-          value={firstName === 'null' ? '' : firstName}
+          value={firstName ?? ''}
           onChangeText={setFirstName}
           editable={editing}
         />
@@ -161,7 +151,7 @@ function ProfileScreen() {
         <TextInput
           placeholderTextColor={XColors.dark}
           style={styles.input}
-          value={lastName === 'null' ? '' : lastName}
+          value={lastName ?? ''}
           onChangeText={setLastName}
           editable={editing}
         />
@@ -181,7 +171,7 @@ function ProfileScreen() {
         <TextInput
           placeholderTextColor={XColors.dark}
           style={styles.input}
-          value={phone === 'null' ? '' : phone}
+          value={phone ?? ''}
           onChangeText={setPhone}
           editable={editing}
         />

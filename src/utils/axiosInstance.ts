@@ -7,13 +7,19 @@ export const axiosInstance = axios.create({
   baseURL: APIURL,
 });
 
+  let interceptorsAttached = false;
+
+  if (!interceptorsAttached) {
 axiosInstance.interceptors.request.use(async config => {
+
   const token = await AsyncStorage.getItem('token');
   const lang = await AsyncStorage.getItem('language');
 
-  if (token) {
-    config.headers.Authorization = token;
+  if (!token) {
+    throw new Error('No auth token');
   }
+
+  config.headers.Authorization = `Bearer ${token}`
 
   if (lang) {
     config.params = {...config.params, lang};
@@ -21,6 +27,7 @@ axiosInstance.interceptors.request.use(async config => {
 
   return config;
 });
+}
 
 axiosInstance.interceptors.response.use(
   value => {

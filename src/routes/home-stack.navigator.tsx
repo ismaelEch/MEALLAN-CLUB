@@ -5,11 +5,9 @@ import {Screens} from '../config/constants';
 
 import HomeScreen from '../screens/home.screen';
 import RestaurantScreen from '../screens/restaurant.screen';
-import CartScreen from '../screens/cart.screen';
 import ProductScreen from '../screens/product.screen';
 import FavoritesScreen from '../screens/favorites.screen';
 import ProfileScreen from '../screens/profile.screen';
-// import MyProgram from '../screens/my-program.screen';
 import LoginScreen from '../screens/login.screen';
 import SignupScreen from '../screens/signup.screen';
 import ForgotPasswordScreen from '../screens/forgot-password.screen';

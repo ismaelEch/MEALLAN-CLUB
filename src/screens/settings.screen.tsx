@@ -7,7 +7,6 @@ import { Picker } from '@react-native-picker/picker';
 
 import { XColors } from '../config/constants';
 import { useFocusEffect } from '@react-navigation/native';
-import { fetchRestaurants } from '../redux/actions/retaurantAction';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useTranslation } from 'react-i18next';
 
@@ -40,12 +39,6 @@ function SettingsScreen() {
     const localDistance = await AsyncStorage.getItem('distance');
     setDistance(parseInt(localDistance || '100'));
   };
-
-  useFocusEffect(
-    useCallback(() => {
-      fetchRestaurants();
-    }, [distance]),
-  );
 
   useFocusEffect(
     useCallback(() => {

@@ -46,7 +46,7 @@ import { useTranslation } from 'react-i18next';
 import { RefreshControl } from 'react-native-gesture-handler';
 import { fetchRestaurants } from '../redux/actions/retaurantAction';
 import { convertCurrency } from '../utils/currency';
-import { addToFavorites, fetchAllFavoriteRestaurant, removeFavorites, removeFromFavorites } from '../redux/actions/addfavoriteaction';
+import { fetchAllFavoriteRestaurant, removeFavorites, removeFromFavorites } from '../redux/actions/addfavoriteaction';
 
 const Tab = createMaterialTopTabNavigator();
 const RestaurantContext = createContext({});
@@ -173,7 +173,6 @@ const RestaurantScreen: React.FC<Props> = ({ user }) => {
   useFocusEffect(
     React.useCallback(() => {
       const backAction = () => {
-        console.log("route.params?.from", route.params?.from)
         if (route.params?.from === 'Favorites') {
           navigation.navigate('Favorites');
         } else if (route.params?.from === 'My program') {

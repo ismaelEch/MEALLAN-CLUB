@@ -1,25 +1,33 @@
-
 const initialState = {
   favorites: [],
-  allFavorites: [],
+  allFavorites: [],  
 };
 
-const addFavoritesReducer = (state = initialState, { type, payload }) => {
-  switch (type) {
-    case 'ADD_FAVORITES':
-      return { ...state, favorites: payload };
+const addFavoritesReducer = (state = initialState, action) => {
+  switch (action.type) {
+    case 'ALL_FAVORITES':
+      return {
+        ...state,
+        allFavorites: action.payload ?? [],
+      };
+
+    case 'ADD_FAVORITE':
+      return {
+        ...state,
+        allFavorites: [...state.allFavorites, action.payload],
+      };
+
     case 'REMOVE_FAVORITE':
       return {
         ...state,
-        favorites: state.allFavorites.filter(fav => fav.restaurantId !== payload),
+        allFavorites: state.allFavorites.filter(
+          fav => fav.id !== action.payload
+        ),
       };
 
-    case 'ALL_FAVORITES':
-      return { ...state, allFavorites: payload };
     default:
       return state;
   }
 };
 
 export default addFavoritesReducer;
-
